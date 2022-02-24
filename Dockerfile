@@ -1,11 +1,17 @@
-FROM python:3.10-slim-buster
+FROM python:3.10.2-alpine3.15
+
+COPY requirements.txt /app/requirements.txt
+
+RUN set -ex \
+    && pip install --upgrade pip \  
+    && pip install --no-cache-dir -r /app/requirements.txt
 
 WORKDIR /app
 
-COPY requirements.txt requirements.txt
+ADD . .
 
-RUN pip install -r requirements.txt
+EXPOSE 8000
 
-COPY . .
+CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "core.wsgi:application"]
 
-CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000"]
+# CMD gunicorn core.wsgi:application --bind 0.0.0.0:$PORT
