@@ -14,4 +14,4 @@ ADD . .
 
 # CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "src.wsgi:application"]
 
-CMD gunicorn core.wsgi:application --bind 0.0.0.0:$PORT
+CMD gunicorn src.wsgi:application --bind 0.0.0.0:$PORT
